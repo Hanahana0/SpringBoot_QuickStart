@@ -1,8 +1,3 @@
--- src/main/resources/schema.sql
-CREATE TABLE comment (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    content VARCHAR(255) NOT NULL
-);
 
 
 CREATE TABLE users (
@@ -12,9 +7,27 @@ CREATE TABLE users (
 );
 
 -- TRANSLATION 테이블 생성
-CREATE TABLE TRANSLATION (
-    ID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    MSG VARCHAR(255),
-    LANG VARCHAR(50),
-    TRANSLATION_TEXT VARCHAR(255)
+CREATE TABLE translation (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    msg VARCHAR(255),
+    lang VARCHAR(50),
+    translation_text VARCHAR(255)
 );
+
+
+CREATE TABLE menu (
+    id VARCHAR(20) PRIMARY KEY,         -- 메뉴 코드 (ADM112110 등)
+    app_code VARCHAR(10) NOT NULL,      -- 애플리케이션 코드 (ADM)
+    title VARCHAR(50) NOT NULL,         -- 메뉴 이름
+    description VARCHAR(100),           -- 메뉴 설명 (optional)
+    menu_level INT,                     -- 메뉴 레벨 (계층 구조 표현)
+    parent_id VARCHAR(20),              -- 상위 메뉴 코드 (NULL이면 최상위 메뉴)
+    use_yn CHAR(1) DEFAULT 'Y',         -- 사용 여부 (Y/N)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 생성 일자
+    updated_at TIMESTAMP                -- 수정 일자
+);
+
+-- 부모-자식 관계를 위한 외래 키 제약 조건 추가
+ALTER TABLE menu
+ADD CONSTRAINT fk_menu_parent
+FOREIGN KEY (parent_id) REFERENCES menu(id);

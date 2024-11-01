@@ -1,66 +1,97 @@
-INSERT INTO comment (id, content) VALUES (1, '안녕하세요, 첫 번째 댓글입니다!');
-INSERT INTO comment (id, content) VALUES (2, '테스트용 두 번째 댓글입니다.');
-INSERT INTO comment (id, content) VALUES (3, 'XSS 테스트: <script>alert("XSS")</script>');
-INSERT INTO comment (id, content) VALUES (4, 'XSS 테스트: <div><h2>React 좋네</h2></div>');
+INSERT INTO users (username, password)
+VALUES ('alas', '1111');
 
 
+-- 영어 번역 데이터
+INSERT INTO translation (msg, lang, translation_text)
+VALUES ('SECURITY_MGMT', 'en', 'Security Management'),
+       ('ADMIN_MENU', 'en', 'Admin management'),
+       ('WN_MENU', 'en', 'Wharhouse management'),
+       ('ROLE_MGMT', 'en', 'Role Management'),
+       ('SYSTEM_MGMT', 'en', 'System Management'),
+       ('IF_MNG', 'en', 'IF Management'),
+       ('IF_SEND_REC_HIST_SEARCH', 'en', 'IF Send/Receive History Search'),
+       ('SCHEDULER_MGMT', 'en', 'Scheduler Management'),
+       ('USER_MGMT', 'en', 'User Management'),
+       ('USER_GRP_MGMT', 'en', 'User Group Setting'),
+       ('SCR_ROLE_MGMT', 'en', 'Role Setting'),
+       ('SYSTEM_CONFIG', 'en', 'System Configuration'),
+       ('USE_HIST', 'en', 'Usage History'),
+       ('CONN_HIST', 'en', 'Connection History'),
+       ('PRGM_MGMT', 'en', 'Program Management'),
+       ('CD_MGMT', 'en', 'Code Management'),
+       ('MENU_MGMT', 'en', 'Menu Management'),
+       ('LANG_MGMT', 'en', 'Language Management'),
+       ('EXCEL_UPLOAD_SET', 'en', 'Excel Upload Setting'),
+       ('EXCEL_UPLOAD_FORM_MGMT', 'en', 'Excel Upload Form Management'),
+       ('IF_JOB_LIST', 'en', 'IF Send/Receive List'),
+       ('MSGSEND_MASTER', 'en', 'Mail, SMS Send Master'),
+       ('DRIVER_USER_MGMT', 'en', 'Driver User Management'),
+       ('MSGSEND_DATA', 'en', 'Mail, SMS Send Data'),
+       ('ERROR_LOG', 'en', 'Error Log');
+
+-- 한국어 번역 데이터
+INSERT INTO translation (msg, lang, translation_text)
+VALUES ('SECURITY_MGMT', 'ko', '보안관리'),
+       ('ADMIN_MENU', 'ko', '설정관리'),
+       ('WN_MENU', 'ko', '창고관리'),
+       ('ROLE_MGMT', 'ko', '권한관리'),
+       ('SYSTEM_MGMT', 'ko', '시스템관리'),
+       ('IF_MNG', 'ko', 'IF관리'),
+       ('IF_SEND_REC_HIST_SEARCH', 'ko', 'IF송수신이력조회'),
+       ('SCHEDULER_MGMT', 'ko', '스케줄 관리'),
+       ('USER_MGMT', 'ko', '사용자관리'),
+       ('USER_GRP_MGMT', 'ko', '사용자그룹설정'),
+       ('SCR_ROLE_MGMT', 'ko', '권한설정'),
+       ('SYSTEM_CONFIG', 'ko', '시스템설정'),
+       ('USE_HIST', 'ko', '사용이력'),
+       ('CONN_HIST', 'ko', '접속이력'),
+       ('PRGM_MGMT', 'ko', '프로그램관리'),
+       ('CD_MGMT', 'ko', '코드관리'),
+       ('MENU_MGMT', 'ko', '메뉴관리'),
+       ('LANG_MGMT', 'ko', '언어관리'),
+       ('EXCEL_UPLOAD_SET', 'ko', '엑셀업로드 설정'),
+       ('EXCEL_UPLOAD_FORM_MGMT', 'ko', '엑셀업로드양식관리'),
+       ('IF_JOB_LIST', 'ko', 'IF송/수신 리스트'),
+       ('MSGSEND_MASTER', 'ko', 'Mail,SMS전송 Master'),
+       ('DRIVER_USER_MGMT', 'ko', '운전원사용자관리'),
+       ('MSGSEND_DATA', 'ko', 'Mail,SMS전송정보'),
+       ('ERROR_LOG', 'ko', '에러로그');
 
 
-INSERT INTO users (username, password) VALUES ('alas', '1111');
+-- 최상위 루트 메뉴 (parent_id가 NULL인 경우)
+INSERT INTO menu (id, app_code, title, description, menu_level, parent_id)
+VALUES ('ADM', 'ADM', 'ADMIN_MENU', '관리자 메뉴', 0, NULL),
+        ('WM', 'WM', 'WN_MENU', '창고관리', 0, NULL);
 
+-- 그 다음, 기존 최상위 메뉴들을 모두 'ADM'을 parent_id로 갖는 하위 메뉴로 변경
+INSERT INTO menu (id, app_code, title, description, menu_level, parent_id)
+VALUES ('ADM101010', 'ADM', 'SECURITY_MGMT', '보안관리', 1, 'ADM'),
+       ('ADM101210', 'ADM', 'ROLE_MGMT', '권한관리', 1, 'ADM'),
+       ('ADM111010', 'ADM', 'SYSTEM_MGMT', '시스템관리', 1, 'ADM'),
+       ('WM101010', 'WM', 'WM_MGMT', '창고마스터', 1, 'WM');
 
--- 실제 사용할 만한 조합의 다국어 메시지 예제 데이터 삽입
-INSERT INTO TRANSLATION (MSG, LANG, TRANSLATION_TEXT) VALUES
-    ('LOGIN_SUCCESS', 'en', 'Login successful'),
-    ('LOGIN_SUCCESS', 'ko', '로그인 성공'),
-    ('LOGIN_FAILURE', 'en', 'Login failed. Please try again.'),
-    ('LOGIN_FAILURE', 'ko', '로그인 실패. 다시 시도해주세요.'),
-    ('USER_REGISTRATION_COMPLETE', 'en', 'User registration completed'),
-    ('USER_REGISTRATION_COMPLETE', 'ko', '사용자 등록 완료'),
-    ('DATA_SAVE_SUCCESS', 'en', 'Data saved successfully'),
-    ('DATA_SAVE_SUCCESS', 'ko', '데이터가 성공적으로 저장되었습니다.'),
-    ('INVALID_INPUT', 'en', 'Invalid input. Please check your data.'),
-    ('INVALID_INPUT', 'ko', '잘못된 입력입니다. 데이터를 확인하세요.'),
-    ('ACCESS_DENIED', 'en', 'Access denied'),
-    ('ACCESS_DENIED', 'ko', '접근이 거부되었습니다.'),
-    ('SESSION_EXPIRED', 'en', 'Session expired. Please log in again.'),
-    ('SESSION_EXPIRED', 'ko', '세션이 만료되었습니다. 다시 로그인해주세요.'),
-    ('PASSWORD_RESET', 'en', 'Password reset successful'),
-    ('PASSWORD_RESET', 'ko', '비밀번호 재설정 성공');
+-- 기존 하위 메뉴들은 최상위 메뉴의 ID를 parent_id로 유지
+INSERT INTO menu (id, app_code, title, description, menu_level, parent_id)
+VALUES ('ADM112110', 'ADM', 'IF_MNG', 'IF관리', 2, 'ADM111010'),
+       ('ADM112120', 'ADM', 'IF_SEND_REC_HIST_SEARCH', 'IF송수신이력조회', 2, 'ADM111010'),
+       ('ADM111910', 'ADM', 'SCHEDULER_MGMT', '스케줄 관리', 2, 'ADM111010'),
+       ('ADM101110', 'ADM', 'USER_MGMT', '사용자관리', 2, 'ADM101010'),
+       ('ADM101211', 'ADM', 'USER_GRP_MGMT', '사용자그룹설정', 2, 'ADM101210'),
+       ('ADM101213', 'ADM', 'SCR_ROLE_MGMT', '권한설정', 2, 'ADM101210'),
+       ('ADM101311', 'ADM', 'SYSTEM_CONFIG', '시스템설정', 2, 'ADM111010'),
+       ('ADM101410', 'ADM', 'USE_HIST', '사용이력', 2, 'ADM101010'),
+       ('ADM101710', 'ADM', 'CONN_HIST', '접속이력', 2, 'ADM101010'),
+       ('ADM101810', 'ADM', 'PRGM_MGMT', '프로그램관리', 2, 'ADM101010'),
+       ('ADM111110', 'ADM', 'CD_MGMT', '코드관리', 2, 'ADM111010'),
+       ('ADM111210', 'ADM', 'MENU_MGMT', '메뉴관리', 2, 'ADM111010'),
+       ('ADM111410', 'ADM', 'LANG_MGMT', '언어관리', 2, 'ADM111010'),
+       ('ADM111510', 'ADM', 'EXCEL_UPLOAD_SET', '엑셀업로드 설정', 2, 'ADM111010'),
+       ('ADM111610', 'ADM', 'EXCEL_UPLOAD_FORM_MGMT', '엑셀업로드양식관리', 2, 'ADM111010'),
+       ('ADM112010', 'ADM', 'IF_JOB_LIST', 'IF송/수신 리스트', 2, 'ADM111010'),
+       ('ADM112130', 'ADM', 'MSGSEND_MASTER', 'Mail,SMS전송 Master', 2, 'ADM111010'),
+       ('ADM101112', 'ADM', 'DRIVER_USER_MGMT', '운전원사용자관리', 2, 'ADM101010'),
+       ('ADM112131', 'ADM', 'MSGSEND_DATA', 'Mail,SMS전송정보', 2, 'ADM111010'),
+       ('ADM102110', 'ADM', 'ERROR_LOG', '에러로그', 2, 'ADM101010'),
+       ('WM101110', 'WM', 'MASTER', '시스템구성', 2, 'WM101010');
 
--- 나머지 행은 랜덤 메시지로 채워서 5만 개까지 생성 (테스트 데이터 추가)
-INSERT INTO TRANSLATION (MSG, LANG, TRANSLATION_TEXT)
-SELECT
-    CASE MOD(ROWNUM, 8)
-        WHEN 0 THEN 'LOGIN_SUCCESS'
-        WHEN 1 THEN 'LOGIN_FAILURE'
-        WHEN 2 THEN 'USER_REGISTRATION_COMPLETE'
-        WHEN 3 THEN 'DATA_SAVE_SUCCESS'
-        WHEN 4 THEN 'INVALID_INPUT'
-        WHEN 5 THEN 'ACCESS_DENIED'
-        WHEN 6 THEN 'SESSION_EXPIRED'
-        WHEN 7 THEN 'PASSWORD_RESET'
-    END AS MSG,
-    CASE MOD(ROWNUM, 2)
-        WHEN 0 THEN 'en'
-        WHEN 1 THEN 'ko'
-    END AS LANG,
-    CASE MOD(ROWNUM, 8)
-        WHEN 0 THEN 'Login successful'
-        WHEN 1 THEN '로그인 성공'
-        WHEN 2 THEN 'Login failed. Please try again.'
-        WHEN 3 THEN '로그인 실패. 다시 시도해주세요.'
-        WHEN 4 THEN 'User registration completed'
-        WHEN 5 THEN '사용자 등록 완료'
-        WHEN 6 THEN 'Data saved successfully'
-        WHEN 7 THEN '데이터가 성공적으로 저장되었습니다.'
-        WHEN 8 THEN 'Invalid input. Please check your data.'
-        WHEN 9 THEN '잘못된 입력입니다. 데이터를 확인하세요.'
-        WHEN 10 THEN 'Access denied'
-        WHEN 11 THEN '접근이 거부되었습니다.'
-        WHEN 12 THEN 'Session expired. Please log in again.'
-        WHEN 13 THEN '세션이 만료되었습니다. 다시 로그인해주세요.'
-        WHEN 14 THEN 'Password reset successful'
-        WHEN 15 THEN '비밀번호 재설정 성공'
-    END AS TRANSLATION_TEXT
-FROM SYSTEM_RANGE(1, 49984);

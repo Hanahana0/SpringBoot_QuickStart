@@ -28,9 +28,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)  // CSRF 비활성화
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/authenticate").permitAll()
-                        .requestMatchers("/error").permitAll()  // /error 경로 허용
-                        .requestMatchers("/api/translation").permitAll()  // /api/translations 경로 허용
+//                        .requestMatchers("/auth/authenticate").permitAll()
+//                        .requestMatchers("/error").permitAll()  // /error 경로 허용
+//                        .requestMatchers("/api/translation").permitAll()  // /api/translations 경로 허용
+                        .requestMatchers("/api/**").permitAll()  // /그냥 login 구현전에는 다 열어두자,,
                         .requestMatchers("/h2/**").permitAll()
                         .anyRequest().authenticated()
                 )
