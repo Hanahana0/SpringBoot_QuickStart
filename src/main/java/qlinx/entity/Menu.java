@@ -25,6 +25,12 @@ public class Menu {
     @Column(name = "description", length = 100)
     private String description;  // 메뉴 설명
 
+    @Column(name = "path", length = 100)
+    private String path;  // 메뉴 경로
+
+    @Column(name = "component_path", length = 100)  // 컴포넌트 파일 경로
+    private String componentPath;
+
     @Column(name = "menu_level")
     private Integer menuLevel;  // 메뉴 레벨
 
@@ -39,5 +45,4 @@ public class Menu {
 
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;  // 수정 일자
-
 }

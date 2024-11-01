@@ -62,7 +62,7 @@ VALUES ('SECURITY_MGMT', 'ko', '보안관리'),
 -- 최상위 루트 메뉴 (parent_id가 NULL인 경우)
 INSERT INTO menu (id, app_code, title, description, menu_level, parent_id)
 VALUES ('ADM', 'ADM', 'ADMIN_MENU', '관리자 메뉴', 0, NULL),
-        ('WM', 'WM', 'WN_MENU', '창고관리', 0, NULL);
+       ('WM', 'WM', 'WN_MENU', '창고관리', 0, NULL);
 
 -- 그 다음, 기존 최상위 메뉴들을 모두 'ADM'을 parent_id로 갖는 하위 메뉴로 변경
 INSERT INTO menu (id, app_code, title, description, menu_level, parent_id)
@@ -72,26 +72,26 @@ VALUES ('ADM101010', 'ADM', 'SECURITY_MGMT', '보안관리', 1, 'ADM'),
        ('WM101010', 'WM', 'WM_MGMT', '창고마스터', 1, 'WM');
 
 -- 기존 하위 메뉴들은 최상위 메뉴의 ID를 parent_id로 유지
-INSERT INTO menu (id, app_code, title, description, menu_level, parent_id)
-VALUES ('ADM112110', 'ADM', 'IF_MNG', 'IF관리', 2, 'ADM111010'),
-       ('ADM112120', 'ADM', 'IF_SEND_REC_HIST_SEARCH', 'IF송수신이력조회', 2, 'ADM111010'),
-       ('ADM111910', 'ADM', 'SCHEDULER_MGMT', '스케줄 관리', 2, 'ADM111010'),
-       ('ADM101110', 'ADM', 'USER_MGMT', '사용자관리', 2, 'ADM101010'),
-       ('ADM101211', 'ADM', 'USER_GRP_MGMT', '사용자그룹설정', 2, 'ADM101210'),
-       ('ADM101213', 'ADM', 'SCR_ROLE_MGMT', '권한설정', 2, 'ADM101210'),
-       ('ADM101311', 'ADM', 'SYSTEM_CONFIG', '시스템설정', 2, 'ADM111010'),
-       ('ADM101410', 'ADM', 'USE_HIST', '사용이력', 2, 'ADM101010'),
-       ('ADM101710', 'ADM', 'CONN_HIST', '접속이력', 2, 'ADM101010'),
-       ('ADM101810', 'ADM', 'PRGM_MGMT', '프로그램관리', 2, 'ADM101010'),
-       ('ADM111110', 'ADM', 'CD_MGMT', '코드관리', 2, 'ADM111010'),
-       ('ADM111210', 'ADM', 'MENU_MGMT', '메뉴관리', 2, 'ADM111010'),
-       ('ADM111410', 'ADM', 'LANG_MGMT', '언어관리', 2, 'ADM111010'),
-       ('ADM111510', 'ADM', 'EXCEL_UPLOAD_SET', '엑셀업로드 설정', 2, 'ADM111010'),
-       ('ADM111610', 'ADM', 'EXCEL_UPLOAD_FORM_MGMT', '엑셀업로드양식관리', 2, 'ADM111010'),
-       ('ADM112010', 'ADM', 'IF_JOB_LIST', 'IF송/수신 리스트', 2, 'ADM111010'),
-       ('ADM112130', 'ADM', 'MSGSEND_MASTER', 'Mail,SMS전송 Master', 2, 'ADM111010'),
-       ('ADM101112', 'ADM', 'DRIVER_USER_MGMT', '운전원사용자관리', 2, 'ADM101010'),
-       ('ADM112131', 'ADM', 'MSGSEND_DATA', 'Mail,SMS전송정보', 2, 'ADM111010'),
-       ('ADM102110', 'ADM', 'ERROR_LOG', '에러로그', 2, 'ADM101010'),
-       ('WM101110', 'WM', 'MASTER', '시스템구성', 2, 'WM101010');
-
+INSERT INTO menu (id, app_code, title, description, menu_level, parent_id, path, component_path)
+VALUES
+    ('ADM112110', 'ADM', 'IF_MNG', 'IF관리', 2, 'ADM111010', '/adm/ifManagement', '../pages/adm/ifManagement/IfManagement'),
+    ('ADM112120', 'ADM', 'IF_SEND_REC_HIST_SEARCH', 'IF송수신이력조회', 2, 'ADM111010', '/adm/ifSendReceiveHistory', '../pages/adm/ifSendReceiveHistory/IfSendReceiveHistory'),
+    ('ADM111910', 'ADM', 'SCHEDULER_MGMT', '스케줄 관리', 2, 'ADM111010', '/adm/schedulerManagement', '../pages/adm/schedulerManagement/SchedulerManagement'),
+    ('ADM101110', 'ADM', 'USER_MGMT', '사용자관리', 2, 'ADM101010', '/adm/userManagement', '../pages/adm/userManagement/UserManagement'),
+    ('ADM101211', 'ADM', 'USER_GRP_MGMT', '사용자그룹설정', 2, 'ADM101210', '/adm/userGroupManagement', '../pages/adm/userGroupManagement/UserGroupManagement'),
+    ('ADM101213', 'ADM', 'SCR_ROLE_MGMT', '권한설정', 2, 'ADM101210', '/adm/roleManagement', '../pages/adm/roleManagement/RoleManagement'),
+    ('ADM101311', 'ADM', 'SYSTEM_CONFIG', '시스템설정', 2, 'ADM111010', '/adm/systemConfig', '../pages/adm/systemConfig/SystemConfig'),
+    ('ADM101410', 'ADM', 'USE_HIST', '사용이력', 2, 'ADM101010', '/adm/useHistory', '../pages/adm/useHistory/UseHistory'),
+    ('ADM101710', 'ADM', 'CONN_HIST', '접속이력', 2, 'ADM101010', '/adm/connectionHistory', '../pages/adm/connectionHistory/ConnectionHistory'),
+    ('ADM101810', 'ADM', 'PRGM_MGMT', '프로그램관리', 2, 'ADM101010', '/adm/programManagement', '../pages/adm/programManagement/ProgramManagement'),
+    ('ADM111110', 'ADM', 'CD_MGMT', '코드관리', 2, 'ADM111010', '/adm/codeManagement', '../pages/adm/codeManagement/CodeManagement'),
+    ('ADM111210', 'ADM', 'MENU_MGMT', '메뉴관리', 2, 'ADM111010', '/adm/menuManagement', '../pages/adm/menuManagement/MenuManagement'),
+    ('ADM111410', 'ADM', 'LANG_MGMT', '언어관리', 2, 'ADM111010', '/adm/languageManagement', '../pages/adm/languageManagement/LanguageManagement'),
+    ('ADM111510', 'ADM', 'EXCEL_UPLOAD_SET', '엑셀업로드 설정', 2, 'ADM111010', '/adm/excelUploadSettings', '../pages/adm/excelUploadSettings/ExcelUploadSettings'),
+    ('ADM111610', 'ADM', 'EXCEL_UPLOAD_FORM_MGMT', '엑셀업로드양식관리', 2, 'ADM111010', '/adm/excelUploadFormManagement', '../pages/adm/excelUploadFormManagement/ExcelUploadFormManagement'),
+    ('ADM112010', 'ADM', 'IF_JOB_LIST', 'IF송/수신 리스트', 2, 'ADM111010', '/adm/ifJobList', '../pages/adm/ifJobList/IfJobList'),
+    ('ADM112130', 'ADM', 'MSGSEND_MASTER', 'Mail,SMS전송 Master', 2, 'ADM111010', '/adm/msgSendMaster', '../pages/adm/msgSendMaster/MsgSendMaster'),
+    ('ADM101112', 'ADM', 'DRIVER_USER_MGMT', '운전원사용자관리', 2, 'ADM101010', '/adm/driverUserManagement', '../pages/adm/driverUserManagement/DriverUserManagement'),
+    ('ADM112131', 'ADM', 'MSGSEND_DATA', 'Mail,SMS전송정보', 2, 'ADM111010', '/adm/msgSendData', '../pages/adm/msgSendData/MsgSendData'),
+    ('ADM102110', 'ADM', 'ERROR_LOG', '에러로그', 2, 'ADM101010', '/adm/errorLog', '../pages/adm/errorLog/ErrorLog'),
+    ('WM101110', 'WM', 'MASTER', '시스템구성', 2, 'WM101010', '/wm/master', '../pages/wm/master/Master');
