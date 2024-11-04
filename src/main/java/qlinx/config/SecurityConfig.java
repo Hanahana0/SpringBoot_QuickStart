@@ -28,20 +28,19 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)  // CSRF 비활성화
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
                 .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/auth/authenticate").permitAll()
-//                        .requestMatchers("/error").permitAll()  // /error 경로 허용
-//                        .requestMatchers("/api/translation").permitAll()  // /api/translations 경로 허용
-                        .requestMatchers("/api/**").permitAll()  // /그냥 login 구현전에는 다 열어두자,,
-                        .requestMatchers("/h2/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/auth/**").permitAll() // /auth 경로 허용
+                        .requestMatchers("/h2/**").permitAll() // H2 콘솔 허용
+                        .requestMatchers("/api/**").hasRole("USER")  // ROLE_USER 권한이 있는 사용자만 /api/** 접근 가능
+                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 )
                 .headers(headers -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin) // 동일 출처의 iframe 요청 허용
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 사용하지 않음
                 );
-        //어렵다..
+
+        // JWT 인증 필터 추가
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -62,7 +61,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000")); // React 앱의 주소를 허용
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

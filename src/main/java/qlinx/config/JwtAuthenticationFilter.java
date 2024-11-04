@@ -22,8 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // 인증이 필요하지 않은 경로 목록
     private static final List<String> EXCLUDED_PATHS = Arrays.asList(
-            "/api/translation",
-            "/api/menus",
+            "/auth",   // auth 경로 전체를 허용
             "/h2"
     );
 
@@ -38,25 +37,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = getJwtFromCookies(request);
+        // Authorization 헤더에서 JWT 토큰 가져오기
+        String authorizationHeader = request.getHeader("Authorization");
+        String token = null;
+        System.out.println(authorizationHeader);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            token = authorizationHeader.substring(7);
+        }
 
+        System.out.println(token);
+
+
+//        if (token != null && jwtUtil.validateToken(token)) {
+//            String username = jwtUtil.extractUsername(token);
+//            JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(username);
+//            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//        }
         if (token != null && jwtUtil.validateToken(token)) {
             String username = jwtUtil.extractUsername(token);
             JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(username);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            System.out.println("Authenticated user: " + username); // 추가된 로그
+        } else {
+            System.out.println("Token validation failed or token is null.");
         }
-
         chain.doFilter(request, response);
-    }
-
-    private String getJwtFromCookies(HttpServletRequest request) {
-        return request.getCookies() != null
-                ? Arrays.stream(request.getCookies())
-                .filter(cookie -> "jwt".equals(cookie.getName()))
-                .map(jakarta.servlet.http.Cookie::getValue)
-                .findFirst()
-                .orElse(null)
-                : null;
     }
 }
