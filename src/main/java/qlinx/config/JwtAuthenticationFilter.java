@@ -47,22 +47,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             token = authorizationHeader.substring(7);
         }
 
-        // 토큰이 유효한지 확인하고 인증 객체 생성
-        if (token != null && jwtUtil.validateToken(token)) {
-            String username = jwtUtil.extractUsername(token);
-            String role = jwtUtil.extractRole(token); // JWT에서 역할 추출
+        // 토큰 검증
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                String username = jwtUtil.extractUsername(token);
+                String role = jwtUtil.extractRole(token);
 
-            // 역할 정보와 함께 인증 객체 생성
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    username, null, Collections.singletonList(new SimpleGrantedAuthority(role))
-            );
-
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            System.out.println("Authenticated user: " + username + " with role: " + role); // 로그 추가
+                // 인증 객체 생성
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        username, null, Collections.singletonList(new SimpleGrantedAuthority(role))
+                );
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            } else {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT Token is expired or invalid");
+                return;
+            }
         } else {
-            System.out.println("Token validation failed or token is null.");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT Token is missing");
+            return;
         }
+
         chain.doFilter(request, response);
     }
 }
