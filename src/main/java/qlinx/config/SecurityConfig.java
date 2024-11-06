@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll() // /auth 경로 허용
                         .requestMatchers("/h2/**").permitAll() // H2 콘솔 허용
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/**").hasRole("USER")  // ROLE_USER 권한이 있는 사용자만 /api/** 접근 가능
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 )
@@ -53,6 +54,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        System.out.println(authenticationConfiguration);
         return authenticationConfiguration.getAuthenticationManager();
     }
 

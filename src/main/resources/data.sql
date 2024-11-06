@@ -1,5 +1,5 @@
-INSERT INTO users (username, password)
-VALUES ('alas', '1111');
+INSERT INTO users (username, password, email)
+VALUES ('alas', '1111','hy.lee@oneqic.co.kr');
 
 
 -- 영어 번역 데이터

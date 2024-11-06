@@ -5,6 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -40,26 +43,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Authorization 헤더에서 JWT 토큰 가져오기
         String authorizationHeader = request.getHeader("Authorization");
         String token = null;
-        System.out.println(authorizationHeader);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
         }
 
-        System.out.println(token);
-
-
-//        if (token != null && jwtUtil.validateToken(token)) {
-//            String username = jwtUtil.extractUsername(token);
-//            JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(username);
-//            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-//        }
+        // 토큰이 유효한지 확인하고 인증 객체 생성
         if (token != null && jwtUtil.validateToken(token)) {
             String username = jwtUtil.extractUsername(token);
-            JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(username);
+            String role = jwtUtil.extractRole(token); // JWT에서 역할 추출
+
+            // 역할 정보와 함께 인증 객체 생성
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    username, null, Collections.singletonList(new SimpleGrantedAuthority(role))
+            );
+
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            System.out.println("Authenticated user: " + username); // 추가된 로그
+            System.out.println("Authenticated user: " + username + " with role: " + role); // 로그 추가
         } else {
             System.out.println("Token validation failed or token is null.");
         }
