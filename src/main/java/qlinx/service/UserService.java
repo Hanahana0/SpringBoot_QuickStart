@@ -17,14 +17,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public List<User> getAllUsers(Map<String, String> conditions) {
+    public List<User> getAllUsers(Map<String, Object> conditions) {
         if (conditions == null || conditions.isEmpty()) {
             return userRepository.findAll();
         }
 
-        String name = conditions.get("name");
-        String startDateStr = conditions.get("startDate");
-        String endDateStr = conditions.get("endDate");
+        String name = (String)conditions.get("name");
+        String startDateStr = (String)conditions.get("startDate");
+        String endDateStr = (String)conditions.get("endDate");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
