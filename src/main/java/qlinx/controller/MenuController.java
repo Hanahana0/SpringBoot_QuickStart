@@ -1,8 +1,9 @@
 package qlinx.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import qlinx.dto.ApiResponse;
 import qlinx.entity.Menu;
 import qlinx.service.MenuService;
 
@@ -18,8 +19,11 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-    @GetMapping("/menus")
-    public List<Menu> getAllMenus() {
-        return menuService.getAllMenus();
+    @PostMapping("/menus")
+    public ApiResponse getAllMenus() {
+        List<Menu> menus = menuService.getAllMenus();
+
+        // 응답 객체를 ApiResponse로 포장하여 반환
+        return new ApiResponse(menus, "Menus fetched successfully", null);
     }
 }

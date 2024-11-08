@@ -15,6 +15,12 @@ public class TranslationService {
         this.translationRepository = translationRepository;
     }
 
+    // 전체조회
+    public List<Translation> getTranslations() {
+        return translationRepository.findAll();
+    }
+
+    // lang에 따라 분기조회
     public List<Translation> getTranslations(String msg, String lang) {
         if (msg != null && !msg.isEmpty()) {
             // msg와 lang이 모두 있는 경우

@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import qlinx.entity.User;
 import qlinx.repository.UserRepository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -14,8 +17,26 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getAllUsers(Map<String, String> conditions) {
+        if (conditions == null || conditions.isEmpty()) {
+            return userRepository.findAll();
+        }
+
+        String name = conditions.get("name");
+        String startDateStr = conditions.get("startDate");
+        String endDateStr = conditions.get("endDate");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        if (name != null && startDateStr != null && endDateStr != null) {
+            LocalDateTime startDate = LocalDateTime.parse(startDateStr, formatter);
+            LocalDateTime endDate = LocalDateTime.parse(endDateStr, formatter);
+            return userRepository.findByUsernameContainingAndCreatedAtBetween(name, startDate, endDate);
+        } else if (name != null) {
+            return userRepository.findByUsernameContaining(name);
+        } else {
+            return userRepository.findAll();
+        }
     }
 
     public Optional<User> getUserById(Long id) {

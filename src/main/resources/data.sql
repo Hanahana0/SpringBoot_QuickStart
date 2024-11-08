@@ -28,6 +28,8 @@ VALUES ('SECURITY_MGMT', 'en', 'Security Management'),
        ('MSGSEND_MASTER', 'en', 'Mail, SMS Send Master'),
        ('DRIVER_USER_MGMT', 'en', 'Driver User Management'),
        ('MSGSEND_DATA', 'en', 'Mail, SMS Send Data'),
+       ('DATE', 'en', 'Date'),
+       ('NAME', 'en', 'Name'),
        ('ERROR_LOG', 'en', 'Error Log');
 
 -- 한국어 번역 데이터
@@ -56,6 +58,8 @@ VALUES ('SECURITY_MGMT', 'ko', '보안관리'),
        ('MSGSEND_MASTER', 'ko', 'Mail,SMS전송 Master'),
        ('DRIVER_USER_MGMT', 'ko', '운전원사용자관리'),
        ('MSGSEND_DATA', 'ko', 'Mail,SMS전송정보'),
+       ('DATE', 'ko', '날짜'),
+       ('NAME', 'ko', '이름'),
        ('ERROR_LOG', 'ko', '에러로그');
 
 
