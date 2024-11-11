@@ -26,7 +26,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 인증이 필요하지 않은 경로 목록
     private static final List<String> EXCLUDED_PATHS = Arrays.asList(
             "/auth",   // auth 경로 전체를 허용
-            "/h2"
+            "/h2",
+            "/Login.do", // dev test 경로
+            "/lang" // dev test 경로
     );
 
     @Override

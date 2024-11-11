@@ -1,5 +1,6 @@
 package qlinx.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ApiResponse {
 
-    private Object RTN_DATA;  // 반환 데이터
-    private String RTN_MSG;   // 응답 메시지
-    private Integer RTN_CD; // 오류 코드 (옵션)
+    @JsonProperty("RTN_DATA") // JSON 응답의 필드 이름을 지정
+    private Object RTN_DATA;   // 반환 데이터
+
+    @JsonProperty("RTN_MSG")   // JSON 응답의 필드 이름을 지정
+    private String RTN_MSG;    // 응답 메시지
+
+    @JsonProperty("RTN_CD")    // JSON 응답의 필드 이름을 지정
+    private Integer RTN_CD;    // 오류 코드 (옵션)
 
 }

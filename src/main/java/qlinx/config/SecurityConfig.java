@@ -32,6 +32,9 @@ public class SecurityConfig {
                         .requestMatchers("/h2/**").permitAll() // H2 콘솔 허용
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/**").hasRole("USER")  // ROLE_USER 권한이 있는 사용자만 /api/** 접근 가능
+                        // dev test경로
+                        .requestMatchers("/Login.do").permitAll()
+                        .requestMatchers("/lang").permitAll()
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 )
                 .headers(headers -> headers
