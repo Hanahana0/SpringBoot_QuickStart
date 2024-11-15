@@ -26,7 +26,7 @@ public class DataLoader {
     }
 
     public void insertData() {
-        for (int i = 1; i <= 50000; i++) {
+        for (int i = 1; i <= 100000; i++) {
             entityManager.createNativeQuery("INSERT INTO translation (msg, lang, translation_text) VALUES (?1, ?2, ?3)")
                     .setParameter(1, "MSG_" + i)
                     .setParameter(2, i % 2 == 0 ? "en" : "ko")

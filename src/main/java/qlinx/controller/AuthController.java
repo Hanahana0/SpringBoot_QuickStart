@@ -1,6 +1,7 @@
 package qlinx.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import qlinx.config.JwtUtil;
@@ -45,8 +46,8 @@ public class AuthController {
             ApiResponse response = new ApiResponse(data, "Login successful", null);
             return ResponseEntity.ok(response);
         } else {
-            ApiResponse response = new ApiResponse(null, "Invalid username or password", 999);
-            return ResponseEntity.status(999).body(response);
+            ApiResponse response = new ApiResponse(null, "Invalid username or password", 999); // 커스텀 에러 코드 999
+            return ResponseEntity.ok(response); // 항상 200 OK 반환
         }
     }
 

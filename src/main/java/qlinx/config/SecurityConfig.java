@@ -35,6 +35,7 @@ public class SecurityConfig {
                         // dev test경로
                         .requestMatchers("/Login.do").permitAll()
                         .requestMatchers("/lang").permitAll()
+                        .requestMatchers("/test/**").permitAll()
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 )
                 .headers(headers -> headers

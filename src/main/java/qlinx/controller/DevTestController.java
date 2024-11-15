@@ -53,7 +53,7 @@ public class DevTestController {
         }
         // 지원되지 않는 작업에 대한 처리
         else {
-            ApiResponse response = new ApiResponse(null, "Unsupported action", 400);
+            ApiResponse response = new ApiResponse(null, "Unsupported action", -400);
             return ResponseEntity.badRequest().body(response);
         }
     }
@@ -79,8 +79,8 @@ public class DevTestController {
             ApiResponse response = new ApiResponse(data, "Login successful", null);
             return ResponseEntity.ok(response);
         } else {
-            ApiResponse response = new ApiResponse(null, "Invalid username or password", 999);
-            return ResponseEntity.status(401).body(response);
+            ApiResponse response = new ApiResponse(null, "Invalid username or password", -999); // 커스텀 에러 코드 999
+            return ResponseEntity.ok(response); // 항상 200 OK 반환
         }
     }
 
@@ -100,7 +100,7 @@ public class DevTestController {
             ApiResponse response = new ApiResponse(data, "Token refreshed successfully", null);
             return ResponseEntity.ok(response);
         } else {
-            ApiResponse response = new ApiResponse(null, "Invalid or expired refresh token", 401);
+            ApiResponse response = new ApiResponse(null, "Invalid or expired refresh token", -401);
             return ResponseEntity.status(401).body(response);
         }
     }
@@ -123,7 +123,7 @@ public class DevTestController {
             ApiResponse response = new ApiResponse(data, "Token refreshed successfully", null);
             return ResponseEntity.ok(response);
         } else {
-            ApiResponse response = new ApiResponse(null, "Invalid or expired refresh token", 401);
+            ApiResponse response = new ApiResponse(null, "Invalid or expired refresh token", -401);
             return ResponseEntity.status(401).body(response);
         }
     }
@@ -140,11 +140,11 @@ public class DevTestController {
                 ApiResponse response = new ApiResponse(null, "Token is valid", null);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse response = new ApiResponse(null, "Invalid or expired token", 498);
+                ApiResponse response = new ApiResponse(null, "Invalid or expired token", -498);
                 return ResponseEntity.status(498).body(response);
             }
         } catch (IllegalArgumentException e) {
-            ApiResponse response = new ApiResponse(null, "Invalid request data", 400);
+            ApiResponse response = new ApiResponse(null, "Invalid request data", -400);
             return ResponseEntity.badRequest().body(response);
         }
     }

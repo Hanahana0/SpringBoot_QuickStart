@@ -28,7 +28,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/auth",   // auth 경로 전체를 허용
             "/h2",
             "/Login.do", // dev test 경로
-            "/lang" // dev test 경로
+            "/lang", // dev test 경로
+            "/test" // dev test 경로
     );
 
     @Override
