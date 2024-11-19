@@ -1,13 +1,15 @@
 package qlinx.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import qlinx.dto.ApiRequest;
 import qlinx.dto.ApiResponse;
+import qlinx.entity.Menu;
 import qlinx.entity.Translation;
+import qlinx.service.MenuService;
 import qlinx.service.TranslationService;
 
 import java.util.ArrayList;
@@ -17,10 +19,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/test")
 public class TestController {
-
+    private final MenuService menuService;
     private final TranslationService translationService;
 
-    public TestController(TranslationService translationService) {
+    public TestController(MenuService menuService, TranslationService translationService) {
+        this.menuService = menuService;
         this.translationService = translationService;
     }
 
@@ -43,5 +46,13 @@ public class TestController {
         // ApiResponse로 감싸서 반환
         ApiResponse response = new ApiResponse(translations, "Translations fetched successfully", null);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/menus")
+    public ApiResponse getAllMenus(@RequestBody ApiRequest request) {
+        List<Menu> menus = menuService.getAllMenus();
+
+        // 응답 객체를 ApiResponse로 포장하여 반환
+        return new ApiResponse(menus, "Menus fetched successfully", null);
     }
 }
